@@ -1,5 +1,7 @@
 package jp.gihyo.jenkinsbook.action;
 
+import java.util.Calender;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -62,6 +64,15 @@ public class SampleAction {
      */
     public final String execute(final HttpServletRequest request) {
         SampleDTO dto = new SampleDTO(firstName, lastName);
+
+	// Select the greeting message according to the time
+	Calender calender = Calender.getInstance();
+	int hour = calender.get(Calender.HOUR_OF_DAY);
+	if (hour < 12) {
+		dto.setMessage("Good Morning");
+	} else {
+		dto.setMessage("Good afternoon");
+	}
 
         HttpSession session = request.getSession(true);
         session.setAttribute("dto", dto);
